@@ -8,6 +8,79 @@ function fibsSum(n) {
   return fibsSum(n - 2) + fibsSum(n - 1) + 1;
 }
 
+function nFibs(n) {
+  if (!n) {
+    return [];
+  } else if (n === 1) {
+    return [1];
+  } else if (n === 2) {
+    return [1, 1];
+  }
+
+  const preFibs = nFibs(n - 1);
+  return preFibs.concat(preFibs[preFibs.length - 1] + preFibs[preFibs.length - 2]);
+}
+
+function nthFib(n) {
+  return nFibs(n)[n - 1];
+}
+
+function nPrimes(n) {
+  let primes = [];
+  let i = 2;
+  
+  while (primes.length < n) {
+    if (isPrime(i)) {
+      primes.push(i);
+    }
+    i++;
+  }
+  
+  return primes;
+}
+
+function primeSum(n) {
+  return nPrimes(n).reduce((acc, el) => acc + el, 0);
+}
+
+String.prototype.symmetricSubstrings = function () {
+  const results = [];
+
+  for (let i = 0; i < this.length; i++) {
+    for (let j = i + 2; j <= this.length; j++) {
+      if (isPalindrome(this.slice(i, j))) {
+        results.push(this.slice(i, j));
+      }
+    }
+  }
+
+  return results;
+};
+
+function isPalindrome(word) {
+  return word === word.split('').reverse().join('');
+}
+
+function jumbleSort(str, alphabet = null) {
+  alphabet = alphabet || "abcdefghijklmnopqrstuvwxyz".split('');
+  let letters = str.split('');
+  let sorted = false;
+
+  while (!sorted) {
+    sorted = true;
+    for (let i = 0; i < letters.length - 1; i++) {
+      let j = i + 1;
+
+      if (alphabet.indexOf(letters[i]) > alphabet.indexOf(letters[j])) {
+        [letters[i], letters[j]] = [letters[j], letters[i]];
+        sorted = false;
+      }
+    }
+  }
+
+  return letters.join('');
+}
+
 function stringIncludeKey(string, key) {
   if (!key) {
     return true;
@@ -38,12 +111,6 @@ function primeFactorization(num) {
   return [num];
 }
 
-// Write a recursive method that takes in a base 10 number n and
-// converts it to a base b number. Return the new number as a string
-//
-// E.g. base_converter(5, 2) == "101"
-// base_converter(31, 16) == "1f"
-
 function baseConverter(num, b) {
   if (!num) {
     return "";
@@ -56,9 +123,6 @@ function baseConverter(num, b) {
 
   return baseConverter(Math.floor(num / b), b) + vals[num % b];
 }
-
-// Using recursion and the is_a? method,
-// write an Array#deep_dup method that will perform a "deep" duplication of the interior arrays.
 
 function deepDup(arr) {
   const result = [];
@@ -351,13 +415,13 @@ Array.prototype.merge = function(right, cb) {
   return result.concat(this, right);
 };
 
-// Jumble sort takes a string and an alphabet. It returns a copy of the string
-// with the letters re-ordered according to their positions in the alphabet. If
-// no alphabet is passed in, it defaults to normal alphabetical order (a-z).
-//
-// Example:
-// jumble_sort("hello") => "ehllo"
-// jumble_sort("hello", ['o', 'l', 'h', 'e']) => 'ollhe'
+
+
+
+
+
+
+
 
 function jumbleSort(str, alphabet = null) {
 
@@ -387,20 +451,18 @@ Array.prototype.bubbleSort = function(func) {
   return copy;
 };
 
-// Write a String#symmetric_substrings method that returns an array of substrings
-// that are palindromes, e.g. "cool".symmetric_substrings => ["oo"]
-// Only include substrings of length > 1.
+String.prototype.symmetricSubstrings = function () {
+  const results = [];
 
-
-String.prototype.symmetricSubstrings = function() {
-  const result = [];
-
-  let end = this.length;
-  for (let start = 0; start < this.length; start++) {
-    if (start === end) {
-      break;
-    } else if (this.slice(start, end))
+  for (let i = 0; i < this.length; i++) {
+    for (let j = i + 2; j <= this.length; j++) {
+      if (isPalindrome(this.slice(i, j))) {
+        results.push(this.slice(i, j));
+      }
+    }
   }
+
+  return results;
 };
 
 const translate = word => {
@@ -452,7 +514,6 @@ function caesarCipher(str, shift) {
 
   return result;
 }
-
 
 function titleize(title) {
   const noCaps = ['a', 'and', 'of', 'over', 'the'];
